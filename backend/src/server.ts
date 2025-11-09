@@ -19,8 +19,8 @@ async function buildServer() {
   });
 
   // Health check pra saber se o server esta ok
-  fastify.get("/health", async (request, reply) => {
-    return reply.code(200).send({
+  fastify.get("/health", async (req, res) => {
+    return res.code(200).send({
       status: "ok",
       timestamp: new Date().toISOString(),
       service: "macktest-backend",
