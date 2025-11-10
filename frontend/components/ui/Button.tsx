@@ -5,7 +5,7 @@ import { ReactNode, useState } from "react";
 interface ButtonProps {
   children: ReactNode;
   onClick?: () => void;
-  variant?: "primary" | "secondary" | "outline";
+  variant?: "primary" | "secondary" | "outline" | "danger";
   className?: string;
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
@@ -16,6 +16,7 @@ const variantStyles = {
   secondary: "bg-gray-600 text-white hover:bg-gray-700 active:bg-gray-800",
   outline:
     "bg-transparent border-2 border-gray-300 text-gray-700 hover:bg-gray-100 active:bg-gray-200",
+  danger: "bg-red-600 text-white hover:bg-red-700 active:bg-red-800",
 };
 
 export function Button({
