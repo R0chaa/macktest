@@ -88,7 +88,7 @@ export function ClassModal({
         name: "",
         segment: "",
         year: "",
-        type: "",
+        type: "Regular",
         teacherCount: 0,
         studentCount: 0,
       });
