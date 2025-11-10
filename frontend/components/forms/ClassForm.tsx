@@ -52,6 +52,7 @@ export function ClassForm({
           value={formData.name}
           onChange={onChange}
           required
+          maxLength={15}
           placeholder={mode === "create" ? "Ex: Turma X" : undefined}
         />
       </FormField>
@@ -62,6 +63,7 @@ export function ClassForm({
           value={formData.segment}
           onChange={onChange}
           required
+          maxLength={15}
           placeholder={mode === "create" ? "Ex: Ensino Médio" : undefined}
         />
       </FormField>
@@ -72,6 +74,7 @@ export function ClassForm({
           value={formData.year}
           onChange={onChange}
           required
+          maxLength={15}
           placeholder={mode === "create" ? "Ex: 2ª Série" : undefined}
         />
       </FormField>
@@ -92,6 +95,7 @@ export function ClassForm({
           value={formData.teacherCount}
           onChange={onChange}
           min={0}
+          max={999}
           required
         />
       </FormField>
@@ -102,6 +106,7 @@ export function ClassForm({
           value={formData.studentCount}
           onChange={onChange}
           min={0}
+          max={999}
           required
         />
       </FormField>

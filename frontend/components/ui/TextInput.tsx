@@ -6,6 +6,7 @@ interface TextInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
   placeholder?: string;
+  maxLength?: number;
 }
 
 export function TextInput({
@@ -14,6 +15,7 @@ export function TextInput({
   onChange,
   required,
   placeholder,
+  maxLength,
 }: TextInputProps) {
   return (
     <input
@@ -23,6 +25,7 @@ export function TextInput({
       onChange={onChange}
       required={required}
       placeholder={placeholder}
+      maxLength={maxLength}
       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
     />
   );

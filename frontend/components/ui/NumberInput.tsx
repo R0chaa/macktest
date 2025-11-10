@@ -7,6 +7,7 @@ interface NumberInputProps {
   value: number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   min?: number;
+  max?: number;
   required?: boolean;
 }
 
@@ -15,6 +16,7 @@ export function NumberInput({
   value,
   onChange,
   min = 0,
+  max,
   required,
 }: NumberInputProps) {
   const [displayValue, setDisplayValue] = useState<string>(
@@ -40,7 +42,10 @@ export function NumberInput({
 
     if (inputValue.match(/^[0-9]+$/)) {
       const numValue = parseInt(inputValue, 10);
-      if (numValue >= min) {
+      if (numValue >= min && (max === undefined || numValue <= max)) {
+        if (max === 999 && inputValue.length > 3) {
+          return;
+        }
         setDisplayValue(inputValue);
         onChange(e);
       }
