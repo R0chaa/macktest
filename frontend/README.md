@@ -4,7 +4,7 @@ Parte referente ao front do sistema de gestão de turmas proposto como desafio t
 
 ## Sobre o Projeto
 
-O front está gerenciando turmas escolares, permitindo visualização, criação, edição e exclusão de turmas, além de oferecer funcionalidades de busca e filtragem. Tentei me aproximar ao máximo de todos os detalhes propostos no protótipo, incluindo padrões de cores, layout com 7 colunas para telas grandes, estética com tons claros e mantendo uma alternância de cor entre os componentes para melhorar a legibilidade.
+O front está gerenciando turmas escolares, permitindo visualização, criação, edição e exclusão de turmas, além de oferecer funcionalidades de busca e filtragem. Tentei me aproximar ao máximo de todos os detalhes propostos no protótipo, incluindo padrões de cores, layout com 7 colunas para telas grandes, estética com tons claros e mantendo uma alternância de cor entre os componentes para melhorar a legibilidade. Além disso, implementei novas funcionalidades que julguei interessantes para enriquecer o desafio e que costumam fazer parte no desenvolvimento de CRUDs, como a paginação de cards e a implementação dos toasts de confirmação para as ações de Create, Update e Delete.
 
 ## Tecnologias Principais
 
@@ -12,8 +12,7 @@ O front está gerenciando turmas escolares, permitindo visualização, criação
 - **TypeScript**
 - **React 19**
 - **Tailwind**
-- **Tabler Icons** - Biblioteca de ícones dos sistemas internos do Mackenzie
-- **Playwright** - Testes end-to-end
+- **Playwright**
 
 ## Como Executar
 
@@ -39,6 +38,8 @@ npm run dev
 O servidor de dev está em `http://localhost:3000`
 
 ### Testes
+
+Com o frontend e o backend rodando, execute:
 
 ```bash
 cd frontend
@@ -98,10 +99,6 @@ Refs:
 
 - https://react.dev/reference/react/Activity
 - https://javascript.plainenglish.io/tried-react-19s-activity-component-here-s-what-i-learned-b0f714003a65
-
-### Tabler Icons
-
-Escolhi utilizar a biblioteca de ícones Tabler Icons que usamos nos sistemas internos do Mack para me aproximar dos propostos no protótipo.
 
 ### Responsividade
 
