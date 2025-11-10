@@ -29,7 +29,6 @@ export function identifyClassIssues(classData: {
     severity: "warning" | "error";
   }> = [];
 
-  // Validação de nome
   if (!isValidClassName(classData.name)) {
     issues.push({
       type: "invalid_name",
@@ -39,7 +38,6 @@ export function identifyClassIssues(classData: {
     });
   }
 
-  // Validação de professores
   if (classData.teacherCount === 0) {
     issues.push({
       type: "no_teachers",
@@ -49,7 +47,6 @@ export function identifyClassIssues(classData: {
     });
   }
 
-  // Validação de tipo
   const validTypes = ["Regular", "Mista", "Trilha"];
 
   if (!classData.type) {
@@ -66,7 +63,6 @@ export function identifyClassIssues(classData: {
     });
   }
 
-  // Validação de alunos
   if (classData.studentCount === 0) {
     issues.push({
       type: "no_students",

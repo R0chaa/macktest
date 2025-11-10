@@ -1,6 +1,7 @@
+import "dotenv/config";
 import Fastify from "fastify";
 import cors from "@fastify/cors";
-import { classesRoutes } from "./routes/classes";
+import { classesRoutes } from "@/routes/classes";
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3001;
 const HOST = process.env.HOST || "0.0.0.0";
@@ -12,14 +13,12 @@ async function buildServer() {
     },
   });
 
-  // CORS para permitir requisições do front
   await fastify.register(cors, {
     origin: true,
     credentials: true,
   });
 
-  // Health check pra saber se o server esta ok
-  fastify.get("/health", async (req, res) => {
+  fastify.get("/health", async (_req, res) => {
     return res.code(200).send({
       status: "ok",
       timestamp: new Date().toISOString(),
@@ -27,7 +26,6 @@ async function buildServer() {
     });
   });
 
-  // Registra rotas
   await fastify.register(classesRoutes);
 
   return fastify;
@@ -40,12 +38,17 @@ async function start() {
 
     console.log(`
   URL: http://localhost:${PORT}
+  Fonte de dados: Dados mockados
+
   Endpoints disponíveis:
    - GET /health
    - GET /api/classes
    - GET /api/classes/:id
    - GET /api/filters
    - GET /api/stats
+   - POST /api/classes
+   - PUT /api/classes/:id
+   - DELETE /api/classes/:id
     `);
   } catch (err) {
     console.error("Erro ao iniciar servidor:", err);

@@ -1,13 +1,19 @@
-import { Stats } from '../types';
-import { getMockClasses } from '../repositories/mockData';
-import { identifyClassIssues } from '../utils/validation';
+import { Stats } from "@/types";
+import { MockClassRepository } from "@/repositories/ClassRepository";
+import { identifyClassIssues } from "@/utils/validation";
 
 export class StatsService {
-  getStats(): Stats {
-    const allClasses = getMockClasses();
+  private repository: MockClassRepository;
 
-    // Conta turmas com pendências
-    const classesWithIssues = allClasses.filter((classItem) => {
+  constructor(repository?: MockClassRepository) {
+    this.repository = repository || new MockClassRepository();
+  }
+
+  async getStats(): Promise<Stats> {
+    const allClasses = await this.repository.findAll();
+    const classesWithoutIssues = allClasses.map(({ issues, ...rest }) => rest);
+
+    const classesWithIssues = classesWithoutIssues.filter((classItem) => {
       const classIssues = identifyClassIssues({
         name: classItem.name,
         type: classItem.type,
@@ -17,7 +23,6 @@ export class StatsService {
       return classIssues.length > 0;
     }).length;
 
-    // Número de alunos sem turma (mockado)
     const studentsWithoutClass = 236;
 
     return {
@@ -26,4 +31,3 @@ export class StatsService {
     };
   }
 }
-

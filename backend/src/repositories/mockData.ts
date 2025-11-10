@@ -1,6 +1,6 @@
-import { Class } from "../types";
+import { Class } from "@/types";
 
-const mockClasses: Omit<Class, "issues">[] = [
+let mockClasses: Omit<Class, "issues">[] = [
   {
     id: "1",
     name: "Turma A",
@@ -16,7 +16,7 @@ const mockClasses: Omit<Class, "issues">[] = [
     name: "Turma B",
     segment: "Ensino Médio",
     year: "1ª Série",
-    type: "a",
+    type: "Mista",
     teacherCount: 7,
     studentCount: 26,
     isNew: true,
@@ -84,11 +84,11 @@ const mockClasses: Omit<Class, "issues">[] = [
   {
     id: "9",
     name: "Turma I",
-    segment: "Ensino Médio",
-    year: "1ª Série",
+    segment: "Ensino Fund.",
+    year: "7º ano",
     type: "Regular",
     teacherCount: 5,
-    studentCount: 20,
+    studentCount: 0,
     isNew: true,
   },
   {
@@ -115,9 +115,9 @@ const mockClasses: Omit<Class, "issues">[] = [
   {
     id: "12",
     name: "Turma L",
-    segment: "Ensino Médio",
-    year: "1ª Série",
-    type: null,
+    segment: "Ensino Fund.",
+    year: "9º ano",
+    type: "Trilha",
     teacherCount: 7,
     studentCount: 26,
     isNew: false,
@@ -146,4 +146,22 @@ const mockClasses: Omit<Class, "issues">[] = [
 
 export function getMockClasses(): Omit<Class, "issues">[] {
   return [...mockClasses];
+}
+
+export function addMockClass(classData: Omit<Class, "issues">): void {
+  mockClasses.push(classData);
+}
+
+export function updateMockClass(id: string, updates: Partial<Omit<Class, "issues">>): boolean {
+  const index = mockClasses.findIndex((c) => c.id === id);
+  if (index === -1) return false;
+  mockClasses[index] = { ...mockClasses[index], ...updates };
+  return true;
+}
+
+export function deleteMockClass(id: string): boolean {
+  const index = mockClasses.findIndex((c) => c.id === id);
+  if (index === -1) return false;
+  mockClasses.splice(index, 1);
+  return true;
 }

@@ -1,8 +1,16 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
-import { ClassService } from "../services/ClassService";
-import { FilterService } from "../services/FilterService";
-import { StatsService } from "../services/StatsService";
-import { FilterOptions, ClassesResponse } from "../types";
+import { ClassService } from "@/services/ClassService";
+import { FilterService } from "@/services/FilterService";
+import { StatsService } from "@/services/StatsService";
+import { ClassesResponse, Class } from "@/types";
+import {
+  handleError,
+  sendNotFound,
+  sendSuccess,
+  HttpStatus,
+  ErrorMessages,
+} from "@/utils/errorHandler";
+import { buildFiltersFromQuery } from "@/utils/filterBuilder";
 
 interface ClassesQuery {
   segmento?: string;
@@ -16,9 +24,6 @@ export async function classesRoutes(fastify: FastifyInstance) {
   const filterService = new FilterService();
   const statsService = new StatsService();
 
-  // GET /api/classes
-  // Lista todas as turmas com filtros opcionais
-
   fastify.get<{
     Querystring: ClassesQuery;
   }>(
@@ -28,16 +33,9 @@ export async function classesRoutes(fastify: FastifyInstance) {
       reply: FastifyReply
     ) => {
       try {
-        const { segmento, ano, tipo, search } = request.query;
-
-        const filters: FilterOptions = {};
-        if (segmento) filters.segmento = segmento;
-        if (ano) filters.ano = ano;
-        if (tipo) filters.tipo = tipo;
-        if (search) filters.search = search;
-
+        const filters = buildFiltersFromQuery(request.query);
         const classes = await classService.getClasses(filters);
-        const availableFilters = filterService.getAvailableFilters();
+        const availableFilters = await filterService.getAvailableFilters();
 
         const response: ClassesResponse = {
           classes,
@@ -45,19 +43,14 @@ export async function classesRoutes(fastify: FastifyInstance) {
           filters: availableFilters,
         };
 
-        return reply.code(200).send(response);
+        return sendSuccess(reply, response);
       } catch (error) {
         fastify.log.error(error);
-        return reply.code(500).send({
-          error: "Erro ao buscar turmas",
-          message: error instanceof Error ? error.message : "Erro desconhecido",
-        });
+        return handleError(error, reply, ErrorMessages.CLASSES_FETCH_ERROR);
       }
     }
   );
 
-  // GET /api/classes/:id
-  // Busca uma turma específica por ID
   fastify.get<{
     Params: { id: string };
   }>(
@@ -71,54 +64,111 @@ export async function classesRoutes(fastify: FastifyInstance) {
         const classData = await classService.getClassById(id);
 
         if (!classData) {
-          return reply.code(404).send({
-            error: "Turma não encontrada",
-          });
+          return sendNotFound(reply, ErrorMessages.CLASS_NOT_FOUND);
         }
 
-        return reply.code(200).send(classData);
+        return sendSuccess(reply, classData);
       } catch (error) {
         fastify.log.error(error);
-        return reply.code(500).send({
-          error: "Erro ao buscar turma",
-          message: error instanceof Error ? error.message : "Erro desconhecido",
-        });
+        return handleError(error, reply, ErrorMessages.CLASS_FETCH_ERROR);
       }
     }
   );
 
-  // GET /api/filters
-  // Retorna opções disponíveis para filtros
   fastify.get(
     "/api/filters",
-    async (request: FastifyRequest, reply: FastifyReply) => {
+    async (_request: FastifyRequest, reply: FastifyReply) => {
       try {
-        const filters = filterService.getAvailableFilters();
-        return reply.code(200).send(filters);
+        const filters = await filterService.getAvailableFilters();
+        return sendSuccess(reply, filters);
       } catch (error) {
         fastify.log.error(error);
-        return reply.code(500).send({
-          error: "Erro ao buscar filtros",
-          message: error instanceof Error ? error.message : "Erro desconhecido",
-        });
+        return handleError(error, reply, ErrorMessages.FILTERS_FETCH_ERROR);
       }
     }
   );
 
-  // GET /api/stats
-  // Retorna estatísticas do sistema
   fastify.get(
     "/api/stats",
-    async (request: FastifyRequest, reply: FastifyReply) => {
+    async (_request: FastifyRequest, reply: FastifyReply) => {
       try {
-        const stats = statsService.getStats();
-        return reply.code(200).send(stats);
+        const stats = await statsService.getStats();
+        return sendSuccess(reply, stats);
       } catch (error) {
         fastify.log.error(error);
-        return reply.code(500).send({
-          error: "Erro ao buscar estatísticas",
-          message: error instanceof Error ? error.message : "Erro desconhecido",
-        });
+        return handleError(error, reply, ErrorMessages.STATS_FETCH_ERROR);
+      }
+    }
+  );
+
+  fastify.post<{
+    Body: Omit<Class, "issues" | "id">;
+  }>(
+    "/api/classes",
+    async (
+      request: FastifyRequest<{ Body: Omit<Class, "issues" | "id"> }>,
+      reply: FastifyReply
+    ) => {
+      try {
+        const classData = request.body;
+        const newClass = await classService.createClass(classData);
+        return sendSuccess(reply, newClass, HttpStatus.CREATED);
+      } catch (error) {
+        fastify.log.error(error);
+        return handleError(error, reply, ErrorMessages.CLASS_CREATE_ERROR);
+      }
+    }
+  );
+
+  fastify.put<{
+    Params: { id: string };
+    Body: Partial<Omit<Class, "issues" | "id">>;
+  }>(
+    "/api/classes/:id",
+    async (
+      request: FastifyRequest<{
+        Params: { id: string };
+        Body: Partial<Omit<Class, "issues" | "id">>;
+      }>,
+      reply: FastifyReply
+    ) => {
+      try {
+        const { id } = request.params;
+        const updates = request.body;
+        const updated = await classService.updateClass(id, updates);
+
+        if (!updated) {
+          return sendNotFound(reply, ErrorMessages.CLASS_NOT_FOUND);
+        }
+
+        return sendSuccess(reply, updated);
+      } catch (error) {
+        fastify.log.error(error);
+        return handleError(error, reply, ErrorMessages.CLASS_UPDATE_ERROR);
+      }
+    }
+  );
+
+  fastify.delete<{
+    Params: { id: string };
+  }>(
+    "/api/classes/:id",
+    async (
+      request: FastifyRequest<{ Params: { id: string } }>,
+      reply: FastifyReply
+    ) => {
+      try {
+        const { id } = request.params;
+        const deleted = await classService.deleteClass(id);
+
+        if (!deleted) {
+          return sendNotFound(reply, ErrorMessages.CLASS_NOT_FOUND);
+        }
+
+        return sendSuccess(reply, null, HttpStatus.NO_CONTENT);
+      } catch (error) {
+        fastify.log.error(error);
+        return handleError(error, reply, ErrorMessages.CLASS_DELETE_ERROR);
       }
     }
   );
