@@ -25,7 +25,6 @@ class ApiClient {
     return response.json();
   }
 
-  // Busca todas as turmas com filtros opcionais
   async getClasses(filters?: {
     segmento?: string;
     ano?: string;
@@ -44,19 +43,80 @@ class ApiClient {
     );
   }
 
-  // Busca uma turma por ID
   async getClassById(id: string): Promise<Class> {
     return this.fetch<Class>(`/api/classes/${id}`);
   }
 
-  // Busca opções disponíveis para filtros
   async getFilters(): Promise<Filters> {
     return this.fetch<Filters>("/api/filters");
   }
 
-  // Busca estatísticas do sistema
   async getStats(): Promise<Stats> {
     return this.fetch<Stats>("/api/stats");
+  }
+
+  async createClass(classData: Omit<Class, "issues" | "id">): Promise<Class> {
+    const response = await fetch(`${this.baseUrl}/api/classes`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(classData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(
+        errorData.message || `HTTP error! status: ${response.status}`
+      );
+    }
+
+    return response.json();
+  }
+
+  async updateClass(
+    id: string,
+    updates: Partial<Omit<Class, "issues" | "id">>
+  ): Promise<Class> {
+    const response = await fetch(`${this.baseUrl}/api/classes/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updates),
+    });
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error("Turma não encontrada");
+      }
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(
+        errorData.message || `HTTP error! status: ${response.status}`
+      );
+    }
+
+    return response.json();
+  }
+
+  async deleteClass(id: string): Promise<void> {
+    const response = await fetch(`${this.baseUrl}/api/classes/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error("Turma não encontrada");
+      }
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    if (response.status === 204) {
+      return;
+    }
   }
 }
 
