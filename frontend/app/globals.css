@@ -12,15 +12,25 @@
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), sans-serif;
 }
 
-@media (max-width: 1760px) {
+@media (max-width: 1785px) {
   .alert-banner-container {
     flex-basis: 100%;
     min-width: 100%;
+  }
+}
+
+@media (min-width: 1790px) {
+  .grid-cols-7-custom {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
   }
 }
