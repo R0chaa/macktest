@@ -1,19 +1,14 @@
 "use client";
 
 import { Activity, ReactNode, useState } from "react";
-import {
-  IconAppWindow,
-  IconHomeFilled,
-  IconUserFilled,
-  IconFolderFilled,
-  IconCategoryFilled,
-  IconList,
-  IconCalendarWeek,
-  IconHelpCircleFilled,
-  IconPhone,
-  IconTrophyFilled,
-  IconX,
-} from "@tabler/icons-react";
+import Image from "next/image";
+import { getMenuItems } from "@/components/ui/MenuItens";
+
+const ICON_SIZE = 22;
+
+const Icon = ({ src, size = ICON_SIZE }: { src: string; size?: number }) => (
+  <Image src={src} alt="" width={size} height={size} />
+);
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -21,88 +16,12 @@ interface MobileMenuProps {
 }
 
 export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
-  const sizeIcon = 22;
-  const colorIcon = "#718096";
+  const sizeIcon = ICON_SIZE;
   const [pressedIndex, setPressedIndex] = useState<number | null>(null);
   const [closePressed, setClosePressed] = useState(false);
 
-  const primaryItems: Array<{
-    icon: ReactNode | string;
-    label: string;
-    active: boolean;
-  }> = [
-    {
-      icon: <IconAppWindow size={sizeIcon} color={colorIcon} />,
-      label: "Documentos",
-      active: false,
-    },
-    {
-      icon: <IconHomeFilled size={sizeIcon} color={colorIcon} />,
-      label: "Home",
-      active: true,
-    },
-    {
-      icon: <IconUserFilled size={sizeIcon} color={colorIcon} />,
-      label: "Usuários",
-      active: false,
-    },
-    {
-      icon: <IconFolderFilled size={sizeIcon} color={colorIcon} />,
-      label: "Arquivos",
-      active: false,
-    },
-  ];
-
-  const secondaryItems: Array<{
-    icon: ReactNode | string;
-    label: string;
-    active: boolean;
-  }> = [
-    {
-      icon: <IconCategoryFilled size={sizeIcon} color={colorIcon} />,
-      label: "Menus",
-      active: false,
-    },
-    {
-      icon: <IconList size={sizeIcon} color={colorIcon} />,
-      label: "Listas",
-      active: false,
-    },
-    {
-      icon: <IconCalendarWeek size={sizeIcon} color={colorIcon} />,
-      label: "Calendário",
-      active: false,
-    },
-  ];
-
-  const tertiaryItems: Array<{
-    icon: ReactNode | string;
-    label: string;
-    active: boolean;
-  }> = [
-    {
-      icon: <IconHelpCircleFilled size={sizeIcon} color={colorIcon} />,
-      label: "Ajuda",
-      active: false,
-    },
-    {
-      icon: <IconPhone size={sizeIcon} color={colorIcon} />,
-      label: "Suporte",
-      active: false,
-    },
-  ];
-
-  const quaternaryItems: Array<{
-    icon: ReactNode | string;
-    label: string;
-    active: boolean;
-  }> = [
-    {
-      icon: <IconTrophyFilled size={sizeIcon} color={colorIcon} />,
-      label: "Conquistas",
-      active: false,
-    },
-  ];
+  const { primaryItems, secondaryItems, tertiaryItems, quaternaryItems } =
+    getMenuItems(sizeIcon);
 
   const renderMenuItem = (
     item: { icon: ReactNode | string; label: string; active: boolean },
@@ -155,7 +74,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 }`}
                 aria-label="Fechar menu"
               >
-                <IconX size={24} />
+                <Icon src="/IconX.svg" size={24} />
               </button>
             </div>
 

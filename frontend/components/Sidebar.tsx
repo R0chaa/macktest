@@ -1,100 +1,14 @@
 "use client";
-import {
-  IconAppWindow,
-  IconHomeFilled,
-  IconUserFilled,
-  IconFolderFilled,
-  IconCategoryFilled,
-  IconList,
-  IconCalendarWeek,
-  IconHelpCircleFilled,
-  IconPhone,
-  IconTrophyFilled,
-} from "@tabler/icons-react";
 import { Activity, ReactNode, useState } from "react";
+import { getMenuItems } from "@/components/ui/MenuItens";
+
+const sizeIcon = 22;
 
 export function Sidebar() {
-  const sizeIcon = 22;
-  const colorIcon = "#718096";
   const [pressedIndex, setPressedIndex] = useState<number | null>(null);
 
-  const primaryItems: Array<{
-    icon: ReactNode | string;
-    label: string;
-    active: boolean;
-  }> = [
-    {
-      icon: <IconAppWindow size={sizeIcon} color={colorIcon} />,
-      label: "Documentos",
-      active: false,
-    },
-    {
-      icon: <IconHomeFilled size={sizeIcon} color={colorIcon} />,
-      label: "Home",
-      active: true,
-    },
-    {
-      icon: <IconUserFilled size={sizeIcon} color={colorIcon} />,
-      label: "Usuários",
-      active: false,
-    },
-    {
-      icon: <IconFolderFilled size={sizeIcon} color={colorIcon} />,
-      label: "Arquivos",
-      active: false,
-    },
-  ];
-
-  const secondaryItems: Array<{
-    icon: ReactNode | string;
-    label: string;
-    active: boolean;
-  }> = [
-    {
-      icon: <IconCategoryFilled size={sizeIcon} color={colorIcon} />,
-      label: "Menus",
-      active: false,
-    },
-    {
-      icon: <IconList size={sizeIcon} color={colorIcon} />,
-      label: "Lista",
-      active: false,
-    },
-    {
-      icon: <IconCalendarWeek size={sizeIcon} color={colorIcon} />,
-      label: "Calendário",
-      active: false,
-    },
-  ];
-
-  const tertiaryItems: Array<{
-    icon: ReactNode | string;
-    label: string;
-    active: boolean;
-  }> = [
-    {
-      icon: <IconHelpCircleFilled size={sizeIcon} color={colorIcon} />,
-      label: "Ajuda",
-      active: false,
-    },
-    {
-      icon: <IconPhone size={sizeIcon} color={colorIcon} />,
-      label: "Suporte",
-      active: false,
-    },
-  ];
-
-  const quaternaryItems: Array<{
-    icon: ReactNode | string;
-    label: string;
-    active: boolean;
-  }> = [
-    {
-      icon: <IconTrophyFilled size={sizeIcon} color={colorIcon} />,
-      label: "Conquistas",
-      active: false,
-    },
-  ];
+  const { primaryItems, secondaryItems, tertiaryItems, quaternaryItems } =
+    getMenuItems(sizeIcon);
 
   const renderButton = (
     item: { icon: ReactNode | string; label: string; active: boolean },
