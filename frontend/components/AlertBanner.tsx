@@ -1,8 +1,8 @@
 "use client";
 
-import { IconAlertTriangleFilled } from "@tabler/icons-react";
 import { useState } from "react";
 import { Stats } from "@/types";
+import Image from "next/image";
 
 interface AlertBannerProps {
   stats: Stats | null;
@@ -32,9 +32,11 @@ export function AlertBanner({ stats, onResolve }: AlertBannerProps) {
     <div className="w-full md:flex-1 md:min-w-[200px] alert-banner-container">
       <div className="bg-red-100 border-1 border-red-500 p-4 rounded-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 md:max-h-[40px]">
         <div className="flex items-center gap-3 flex-1 min-w-0">
-          <IconAlertTriangleFilled
-            size={20}
-            color="#D92D20"
+          <Image 
+            src="/IconAlertTriangleFilledRed.svg" 
+            alt="" 
+            width={20} 
+            height={20}
             className="flex-shrink-0"
           />
           <p className="text-sm font-medium text-gray-900 break-words">

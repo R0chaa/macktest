@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 import { Activity } from "react";
-import { IconX } from "@tabler/icons-react";
+import Image from "next/image";
 
 interface ModalProps {
   isOpen: boolean;
@@ -48,7 +48,12 @@ export function Modal({
               className="text-gray-500 hover:text-gray-700 transition-colors cursor-pointer"
               aria-label="Fechar"
             >
-              <IconX size={24} />
+              <Image 
+                src="/IconX.svg" 
+                alt="" 
+                width={24} 
+                height={24}
+              />
             </button>
           </div>
 

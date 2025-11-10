@@ -52,6 +52,7 @@ export function ClassForm({
           value={formData.name}
           onChange={onChange}
           required
+          placeholder={mode === "create" ? "Ex: Turma X" : undefined}
         />
       </FormField>
 
@@ -61,6 +62,7 @@ export function ClassForm({
           value={formData.segment}
           onChange={onChange}
           required
+          placeholder={mode === "create" ? "Ex: Ensino Médio" : undefined}
         />
       </FormField>
 
@@ -70,6 +72,7 @@ export function ClassForm({
           value={formData.year}
           onChange={onChange}
           required
+          placeholder={mode === "create" ? "Ex: 2ª Série" : undefined}
         />
       </FormField>
 

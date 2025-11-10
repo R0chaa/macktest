@@ -1,13 +1,27 @@
 "use client";
 
 import { ClassType } from "@/types";
-import {
-  IconCirclesFilled,
-  IconTriangleSquareCircleFilled,
-  IconRouteSquare2,
-  IconBug,
-  IconAlertTriangleFilled,
-} from "@tabler/icons-react";
+import Image from "next/image";
+
+const IconCirclesFilled = ({ size, className }: { size: number; className?: string }) => (
+  <Image src="/IconCirclesFilled.svg" alt="" width={size} height={size} className={className} />
+);
+
+const IconTriangleSquareCircleFilled = ({ size, className }: { size: number; className?: string }) => (
+  <Image src="/IconTriangleSquareCircleFilled.svg" alt="" width={size} height={size} className={className} />
+);
+
+const IconRouteSquare2 = ({ size, className }: { size: number; className?: string }) => (
+  <Image src="/IconRouteSquare2.svg" alt="" width={size} height={size} className={className} />
+);
+
+const IconBug = ({ size, className }: { size: number; className?: string }) => (
+  <Image src="/IconBug.svg" alt="" width={size} height={size} className={className} />
+);
+
+const IconAlertTriangleFilled = ({ size, className }: { size: number; className?: string }) => (
+  <Image src="/IconAlertTriangleFilled.svg" alt="" width={size} height={size} className={className} />
+);
 
 interface TypeBadgeProps {
   type: ClassType;

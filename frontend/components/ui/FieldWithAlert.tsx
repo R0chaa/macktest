@@ -1,7 +1,7 @@
 "use client";
 
-import { IconAlertTriangleFilled } from "@tabler/icons-react";
 import { ReactNode, useState, useRef, useEffect } from "react";
+import Image from "next/image";
 import { createPortal } from "react-dom";
 
 interface FieldWithAlertProps {
@@ -96,9 +96,11 @@ export function FieldWithAlert({
       >
         <div className="inline-flex items-center gap-1">
           {children}
-          <IconAlertTriangleFilled
-            size={18}
-            className="text-yellow-500"
+          <Image 
+            src="/IconAlertTriangleFilled.svg" 
+            alt="" 
+            width={18} 
+            height={18}
           />
         </div>
       </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
-import { IconUserPlus, IconCaretDownFilled } from "@tabler/icons-react";
+import Image from "next/image";
 
 interface PageHeaderProps {
   selectedSchool: string;
@@ -37,7 +37,12 @@ export function PageHeader({
             </option>
           </select>
           <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-            <IconCaretDownFilled size={20} color="#718096" />
+            <Image 
+              src="/IconCaretDownFilled.svg" 
+              alt="" 
+              width={20} 
+              height={20}
+            />
           </div>
         </div>
       </div>
@@ -46,7 +51,12 @@ export function PageHeader({
         className="self-start lg:self-auto"
         onClick={onCreateClass}
       >
-        <IconUserPlus size={20} color="#FFFFFF" />
+        <Image 
+          src="/IconUserPlus.svg" 
+          alt="" 
+          width={20} 
+          height={20}
+        />
         Criar nova turma
       </Button>
     </div>

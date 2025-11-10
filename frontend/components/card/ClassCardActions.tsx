@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { IconEdit, IconEyeShare, IconTrashXFilled } from "@tabler/icons-react";
 import { ActionButton } from "@/components/ui/ActionButton";
+import Image from "next/image";
 import { ConfirmDialog } from "@/components/modal/ConfirmDialog";
 import { ClassViewModal } from "@/components/modal/ClassViewModal";
 import { ClassModal } from "@/components/modal/ClassModal";
@@ -49,21 +49,21 @@ export function ClassCardActions({
           <p className="text-xs text-gray-600 font-semibold">Ações</p>
           <div className="flex">
             <ActionButton
-              icon={<IconEdit size={20} />}
+              icon={<Image src="/IconEdit.svg" alt="" width={20} height={20} />}
               onClick={() => setShowEditModal(true)}
               variant="blue"
               title="Editar"
               ariaLabel="Editar turma"
             />
             <ActionButton
-              icon={<IconEyeShare size={20} />}
+              icon={<Image src="/IconEyeShare.svg" alt="" width={20} height={20} />}
               onClick={handleViewClick}
               variant="green"
               title="Visualizar"
               ariaLabel="Visualizar turma"
             />
             <ActionButton
-              icon={<IconTrashXFilled size={20} />}
+              icon={<Image src="/IconTrashXFilled.svg" alt="" width={20} height={20} />}
               onClick={() => setShowConfirmDialog(true)}
               variant="red"
               title="Excluir"

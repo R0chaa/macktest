@@ -1,6 +1,6 @@
 "use client";
 
-import { IconSearch } from "@tabler/icons-react";
+import Image from "next/image";
 
 interface SearchBarProps {
   value: string;
@@ -16,7 +16,12 @@ export function SearchBar({
   return (
     <div className="relative">
       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-        <IconSearch size={20} color="black" />
+        <Image 
+          src="/IconSearch.svg" 
+          alt="" 
+          width={20} 
+          height={20}
+        />
       </div>
       <input
         type="text"

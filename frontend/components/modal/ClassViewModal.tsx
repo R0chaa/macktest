@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { IconX } from "@tabler/icons-react";
 import { Class } from "@/types";
+import Image from "next/image";
 import { apiClient } from "@/services/api";
 import { TypeBadge } from "@/components/card/TypeBadge";
 import { ClassField } from "@/components/ui/ClassField";
@@ -78,7 +78,12 @@ export function ClassViewModal({
             className="text-gray-500 hover:text-gray-700 transition-colors cursor-pointer"
             aria-label="Fechar"
           >
-            <IconX size={22} />
+            <Image 
+              src="/IconX.svg" 
+              alt="" 
+              width={22} 
+              height={22}
+            />
           </button>
         </div>
 

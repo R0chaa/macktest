@@ -1,8 +1,8 @@
 "use client";
 
-import { IconUser, IconBellFilled, IconMenu2 } from "@tabler/icons-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface HeaderProps {
   onMenuClick?: () => void;
@@ -21,7 +21,6 @@ export function Header({ onMenuClick }: HeaderProps) {
   return (
     <header className="w-full bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
       <div className="flex items-center gap-4">
-        {/* Botão de menu mobile */}
         <button
           onClick={onMenuClick}
           onMouseDown={() => setMenuPressed(true)}
@@ -32,7 +31,12 @@ export function Header({ onMenuClick }: HeaderProps) {
           }`}
           aria-label="Abrir menu"
         >
-          <IconMenu2 size={24} />
+          <Image 
+            src="/IconMenu2.svg" 
+            alt="" 
+            width={24} 
+            height={24}
+          />
         </button>
         <h1
           onClick={handleLogoClick}
@@ -51,7 +55,12 @@ export function Header({ onMenuClick }: HeaderProps) {
           }`}
           aria-label="Favoritos"
         >
-          <IconBellFilled size={24} />
+          <Image 
+            src="/IconBellFilled.svg" 
+            alt="" 
+            width={24} 
+            height={24}
+          />
         </button>
         <button
           onMouseDown={() => setUserPressed(true)}
@@ -62,7 +71,12 @@ export function Header({ onMenuClick }: HeaderProps) {
           }`}
           aria-label="Perfil"
         >
-          <IconUser size={24} />
+          <Image 
+            src="/IconUser.svg" 
+            alt="" 
+            width={24} 
+            height={24}
+          />
         </button>
       </div>
     </header>

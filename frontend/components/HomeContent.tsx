@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef, startTransition } from "react";
 import { Layout } from "@/components/Layout";
 import { PageHeader } from "@/components/PageHeader";
 import { SearchBar } from "@/components/ui/SearchBar";
@@ -10,6 +10,8 @@ import { ClassCard } from "@/components/card/ClassCard";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { Loading } from "@/components/ui/Loading";
 import { ClassModal } from "@/components/modal/ClassModal";
+import { Pagination } from "@/components/ui/Pagination";
+import { Toast } from "@/components/ui/Toast";
 import { useClasses } from "@/hooks/useClasses";
 import { useFilters } from "@/hooks/useFilters";
 import { useSearch } from "@/hooks/useSearch";
@@ -38,21 +40,21 @@ export function HomeContent() {
     return options;
   }, [selectedSegment, selectedYear, selectedType, debouncedSearch]);
 
-  const { classes, loading, total, refetch } = useClasses(filterOptions);
+  const { classes, loading, refetch } = useClasses(filterOptions);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleEdit = async (id: string) => {
     await refetch();
-  };
-
-  const handleView = (id: string) => {
-    console.log("Visualizar turma:", id);
+    setToastMessage("Turma editada com sucesso!");
+    setShowToast(true);
   };
 
   const handleDelete = async (id: string) => {
     try {
       await apiClient.deleteClass(id);
       await refetch();
+      setToastMessage("Turma excluída com sucesso!");
+      setShowToast(true);
     } catch (error) {
       console.error("Erro ao excluir turma:", error);
       alert(
@@ -68,6 +70,17 @@ export function HomeContent() {
   };
 
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(30);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+
+  const prevFiltersRef = useRef({
+    selectedSegment,
+    selectedYear,
+    selectedType,
+    debouncedSearch,
+  });
 
   const handleCreateClass = () => {
     setShowCreateModal(true);
@@ -80,7 +93,36 @@ export function HomeContent() {
   const handleCreateSuccess = async () => {
     setShowCreateModal(false);
     await refetch();
+    setToastMessage("Turma criada com sucesso!");
+    setShowToast(true);
   };
+
+  useEffect(() => {
+    const prevFilters = prevFiltersRef.current;
+    const filtersChanged =
+      prevFilters.selectedSegment !== selectedSegment ||
+      prevFilters.selectedYear !== selectedYear ||
+      prevFilters.selectedType !== selectedType ||
+      prevFilters.debouncedSearch !== debouncedSearch;
+
+    if (filtersChanged) {
+      startTransition(() => {
+        setCurrentPage(1);
+      });
+      prevFiltersRef.current = {
+        selectedSegment,
+        selectedYear,
+        selectedType,
+        debouncedSearch,
+      };
+    }
+  }, [selectedSegment, selectedYear, selectedType, debouncedSearch]);
+
+  const paginatedClasses = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return classes.slice(startIndex, endIndex);
+  }, [classes, currentPage, itemsPerPage]);
 
   return (
     <Layout>
@@ -119,12 +161,11 @@ export function HomeContent() {
 
         {!loading && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 grid-cols-7-custom gap-4">
-            {classes.map((classData) => (
+            {paginatedClasses.map((classData) => (
               <ClassCard
                 key={classData.id}
                 classData={classData}
                 onEdit={handleEdit}
-                onView={handleView}
                 onDelete={handleDelete}
               />
             ))}
@@ -138,9 +179,13 @@ export function HomeContent() {
         )}
 
         {!loading && classes.length > 0 && (
-          <div className="mt-6 text-sm text-gray-600">
-            Total: {total} turma{total !== 1 ? "s" : ""}
-          </div>
+          <Pagination
+            currentPage={currentPage}
+            totalItems={classes.length}
+            itemsPerPage={itemsPerPage}
+            onPageChange={setCurrentPage}
+            onItemsPerPageChange={setItemsPerPage}
+          />
         )}
 
         <ClassModal
@@ -148,6 +193,12 @@ export function HomeContent() {
           onClose={handleCloseCreateModal}
           mode="create"
           onSuccess={handleCreateSuccess}
+        />
+
+        <Toast
+          message={toastMessage}
+          isVisible={showToast}
+          onClose={() => setShowToast(false)}
         />
       </div>
     </Layout>
