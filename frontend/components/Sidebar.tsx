@@ -11,7 +11,7 @@ import {
   IconPhone,
   IconTrophyFilled,
 } from "@tabler/icons-react";
-import { ReactNode, useState } from "react";
+import { Activity, ReactNode, useState } from "react";
 
 export function Sidebar() {
   const sizeIcon = 22;
@@ -52,7 +52,7 @@ export function Sidebar() {
   }> = [
     {
       icon: <IconCategoryFilled size={sizeIcon} color={colorIcon} />,
-      label: "Grid",
+      label: "Menus",
       active: false,
     },
     {
@@ -123,13 +123,15 @@ export function Sidebar() {
 
   return (
     <aside className="hidden md:flex w-20 bg-gray-50 border-r border-gray-200 flex-col items-center py-4 gap-2">
-      {primaryItems.map((item, index) => renderButton(item, index))}
-      <div className="h-4" />
-      {secondaryItems.map((item, index) => renderButton(item, index))}
-      <div className="h-4" />
-      {tertiaryItems.map((item, index) => renderButton(item, index))}
-      <hr className="w-[20%] border-gray-400 mt-4 mb-4" />
-      {quaternaryItems.map((item, index) => renderButton(item, index))}
+      <Activity mode="visible">
+        {primaryItems.map((item, index) => renderButton(item, index))}
+        <div className="h-4" />
+        {secondaryItems.map((item, index) => renderButton(item, index))}
+        <div className="h-4" />
+        {tertiaryItems.map((item, index) => renderButton(item, index))}
+        <hr className="w-[20%] border-gray-400 mt-4 mb-4" />
+        {quaternaryItems.map((item, index) => renderButton(item, index))}
+      </Activity>
     </aside>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { Activity, ReactNode, useState } from "react";
 import {
   IconAppWindow,
   IconHomeFilled,
@@ -60,12 +60,12 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   }> = [
     {
       icon: <IconCategoryFilled size={sizeIcon} color={colorIcon} />,
-      label: "Grid",
+      label: "Menus",
       active: false,
     },
     {
       icon: <IconList size={sizeIcon} color={colorIcon} />,
-      label: "Lista",
+      label: "Listas",
       active: false,
     },
     {
@@ -137,48 +137,52 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         }`}
         onClick={onClose}
       />
-      <div
-        className={`fixed left-0 top-0 h-full w-64 bg-white shadow-xl z-50 md:hidden transition-transform duration-300 ease-in-out ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <div className="flex flex-col h-full">
-          <div className="flex items-center justify-end p-4 border-b border-gray-200">
-            <button
-              onClick={onClose}
-              onMouseDown={() => setClosePressed(true)}
-              onMouseUp={() => setClosePressed(false)}
-              onMouseLeave={() => setClosePressed(false)}
-              className={`p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-150 ${
-                closePressed ? "brightness-90" : ""
-              }`}
-              aria-label="Fechar menu"
-            >
-              <IconX size={24} />
-            </button>
-          </div>
+      <Activity mode={isOpen ? "visible" : "hidden"}>
+        <div
+          className={`fixed left-0 top-0 h-full w-64 bg-white shadow-xl z-50 md:hidden transition-transform duration-300 ease-in-out ${
+            isOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <div className="flex flex-col h-full">
+            <div className="flex items-center justify-end p-4 border-b border-gray-200">
+              <button
+                onClick={onClose}
+                onMouseDown={() => setClosePressed(true)}
+                onMouseUp={() => setClosePressed(false)}
+                onMouseLeave={() => setClosePressed(false)}
+                className={`p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-150 ${
+                  closePressed ? "brightness-90" : ""
+                }`}
+                aria-label="Fechar menu"
+              >
+                <IconX size={24} />
+              </button>
+            </div>
 
-          <div className="flex-1 overflow-y-auto py-4">
-            <div className="flex flex-col gap-1">
-              {primaryItems.map((item, index) => renderMenuItem(item, index))}
-            </div>
-            <div className="h-4" />
-            <div className="flex flex-col gap-1">
-              {secondaryItems.map((item, index) => renderMenuItem(item, index))}
-            </div>
-            <div className="h-4" />
-            <div className="flex flex-col gap-1">
-              {tertiaryItems.map((item, index) => renderMenuItem(item, index))}
-            </div>
-            <hr className="my-4 border-gray-300" />
-            <div className="flex flex-col gap-1">
-              {quaternaryItems.map((item, index) =>
-                renderMenuItem(item, index)
-              )}
+            <div className="flex-1 overflow-y-auto py-4">
+              <div className="flex flex-col gap-1">
+                {primaryItems.map((item, index) => renderMenuItem(item, index))}
+              </div>
+              <div className="flex flex-col gap-1 mt-4">
+                {secondaryItems.map((item, index) =>
+                  renderMenuItem(item, index)
+                )}
+              </div>
+              <div className="flex flex-col gap-1 mt-4">
+                {tertiaryItems.map((item, index) =>
+                  renderMenuItem(item, index)
+                )}
+              </div>
+              <hr className="my-4 border-gray-300" />
+              <div className="flex flex-col gap-1">
+                {quaternaryItems.map((item, index) =>
+                  renderMenuItem(item, index)
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </Activity>
     </>
   );
 }

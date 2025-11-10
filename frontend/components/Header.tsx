@@ -2,15 +2,21 @@
 
 import { IconUser, IconBellFilled, IconMenu2 } from "@tabler/icons-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface HeaderProps {
   onMenuClick?: () => void;
 }
 
 export function Header({ onMenuClick }: HeaderProps) {
+  const router = useRouter();
   const [menuPressed, setMenuPressed] = useState(false);
   const [bellPressed, setBellPressed] = useState(false);
   const [userPressed, setUserPressed] = useState(false);
+
+  const handleLogoClick = () => {
+    router.push("/");
+  };
 
   return (
     <header className="w-full bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
@@ -28,7 +34,10 @@ export function Header({ onMenuClick }: HeaderProps) {
         >
           <IconMenu2 size={24} />
         </button>
-        <h1 className="text-xl text-gray-900 md:ml-40">
+        <h1
+          onClick={handleLogoClick}
+          className="text-xl text-gray-900 md:ml-40 cursor-pointer hover:text-gray-700 transition-colors"
+        >
           <span className="font-semibold">Mack</span>Test
         </h1>
       </div>

@@ -25,7 +25,7 @@ export function Layout({ children }: LayoutProps) {
       <Header onMenuClick={handleMenuToggle} />
       <div className="flex flex-1 relative z-0">
         <Sidebar />
-        <main className="flex-1 overflow-auto relative z-0">{children}</main>
+        <main className="flex-1 overflow-auto scroll-smooth relative z-0">{children}</main>
       </div>
       <MobileMenu isOpen={isMobileMenuOpen} onClose={handleMenuClose} />
     </div>
