@@ -54,7 +54,8 @@ test.describe("busca e filtragem de turmas", () => {
       .filter({ hasText: /Turma [A-Z]/ });
     await expect(classCards.first()).toBeVisible({ timeout: 5000 });
 
-    await expect(page.getByText(/Total: \d+ turma/)).toBeVisible();
+    await expect(page.getByText(/Itens por página:/)).toBeVisible();
+    await expect(page.getByText(/Página \d+ de \d+/)).toBeVisible();
   });
 
   test("filtrar turmas na busca por nome", async ({ page }) => {

@@ -101,7 +101,6 @@ let mockClasses: Omit<Class, "issues">[] = [
     studentCount: 23,
     isNew: false,
   },
-
   {
     id: "11",
     name: "&Åbcdef 78/",
@@ -142,6 +141,77 @@ let mockClasses: Omit<Class, "issues">[] = [
     studentCount: 26,
     isNew: true,
   },
+  {
+    id: "15",
+    name: "Turma O",
+    segment: "Ensino Médio",
+    year: "3ª Série",
+    type: "Regular",
+    teacherCount: 7,
+    studentCount: 25,
+    isNew: false,
+  },
+  {
+    id: "16",
+    name: "Turma P",
+    segment: "Ensino Fund.",
+    year: "7º ano",
+    type: "Regular",
+    teacherCount: 5,
+    studentCount: 0,
+    isNew: true,
+  },
+  {
+    id: "17",
+    name: "Turma Q",
+    segment: "Ensino Médio",
+    year: "1ª Série",
+    type: "Mista",
+    teacherCount: 6,
+    studentCount: 23,
+    isNew: false,
+  },
+
+  {
+    id: "18",
+    name: "Turma R",
+    segment: "Ensino Médio",
+    year: "1ª Série",
+    type: "Regular",
+    teacherCount: 7,
+    studentCount: 26,
+    isNew: true,
+  },
+  {
+    id: "19",
+    name: "Turma S",
+    segment: "Ensino Fund.",
+    year: "9º ano",
+    type: "Trilha",
+    teacherCount: 7,
+    studentCount: 26,
+    isNew: false,
+  },
+  {
+    id: "20",
+    name: "Turma T",
+    segment: "Ensino Médio",
+    year: "1ª Série",
+    type: "",
+    teacherCount: 7,
+    studentCount: 26,
+    isNew: false,
+  },
+  {
+    id: "21",
+    name: "Turma U",
+    segment: "Ensino Médio",
+    year: "1ª Série",
+    type: "Trilha",
+    teacherCount: 7,
+    studentCount: 26,
+    isNew: true,
+  },
 ];
 
 export function getMockClasses(): Omit<Class, "issues">[] {
@@ -152,7 +222,10 @@ export function addMockClass(classData: Omit<Class, "issues">): void {
   mockClasses.push(classData);
 }
 
-export function updateMockClass(id: string, updates: Partial<Omit<Class, "issues">>): boolean {
+export function updateMockClass(
+  id: string,
+  updates: Partial<Omit<Class, "issues">>
+): boolean {
   const index = mockClasses.findIndex((c) => c.id === id);
   if (index === -1) return false;
   mockClasses[index] = { ...mockClasses[index], ...updates };
